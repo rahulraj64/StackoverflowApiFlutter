@@ -27,31 +27,35 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  List<User> userList = [];
-
-  @override
-  void initState() {
-    super.initState();
-    Repository.getStackOverflowUsers().then((users) {
-      setState(() {
-        userList= users;
-      });
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    List<Widget> userWidgets = [];
-    for (int i = 0; i < userList.length; i++) {
-      userWidgets.add(_buildUserWidget(userList[i]));
-    }
-
     return Scaffold(
       appBar: AppBar(
         title: Text("Stackoverflow Users"),
       ),
-      body: ListView(children: userWidgets),
+      body: FutureBuilder<List<User>>(
+        future: Repository.getStackOverflowUsers(),
+        builder: (context, snapShot) {
+          if (snapShot.hasData) {
+            List<User> users = snapShot.data;
+            return ListView(
+              children: _getUserWidgets(users),
+            );
+          } else {
+            return Center(child: CircularProgressIndicator());
+          }
+        },
+        //child: ListView(children: userWidgets),
+      ),
     );
+  }
+
+  List<Widget> _getUserWidgets(List<User> users) {
+    List<Widget> userWidgets = [];
+    for (int i = 0; i < users.length; i++) {
+      userWidgets.add(_buildUserWidget(users[i]));
+    }
+    return userWidgets;
   }
 
   Widget _buildUserWidget(User user) {
