@@ -39,7 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
           if (snapShot.hasData) {
             List<User> users = snapShot.data;
             return ListView(
-              children: _getUserWidgets(users),
+              children: users.map(_buildUserWidget).toList(),
             );
           } else {
             return Center(child: CircularProgressIndicator());
@@ -48,14 +48,6 @@ class _MyHomePageState extends State<MyHomePage> {
         //child: ListView(children: userWidgets),
       ),
     );
-  }
-
-  List<Widget> _getUserWidgets(List<User> users) {
-    List<Widget> userWidgets = [];
-    for (int i = 0; i < users.length; i++) {
-      userWidgets.add(_buildUserWidget(users[i]));
-    }
-    return userWidgets;
   }
 
   Widget _buildUserWidget(User user) {
