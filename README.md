@@ -1,6 +1,6 @@
 # flutter_stack_overflow_api
 
-A new Flutter application for displaying stack overflo users
+A new Flutter application for displaying stack overflow users
 
 ## Getting Started
 
