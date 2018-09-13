@@ -7,18 +7,23 @@ void main() => runApp(new MyApp());
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
+    Repository repository = Repository();
+
     return new MaterialApp(
       title: 'Stackoverflow',
       theme: new ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: new MyHomePage(title: 'Stackoverflow Users'),
+      home: new MyHomePage(title: 'Stackoverflow Users', repository: repository),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({Key key, this.title, this.repository}) : super(key: key);
+
+  Repository repository;
 
   final String title;
 
@@ -34,7 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text("Stackoverflow Users"),
       ),
       body: FutureBuilder<List<User>>(
-        future: Repository.getStackOverflowUsers(),
+        future: widget.repository.getStackOverflowUsers(),
         builder: (context, snapShot) {
           if (snapShot.hasData) {
             List<User> users = snapShot.data;
